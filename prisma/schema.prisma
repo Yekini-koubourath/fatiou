@@ -1,0 +1,166 @@
+// Schéma Prisma pour Fxxtyschop (Optimisé Neon PostgreSQL & Vercel)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH_ON_DELIVERY
+  MOMO
+  MOOV
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+enum StockMovementType {
+  IN_RESTOCK
+  OUT_SALE
+  OUT_LOSS
+  CORRECTION
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role      @default(CUSTOMER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  orders       Order[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+  products    Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id                String          @id @default(cuid())
+  slug              String          @unique
+  name              String
+  brand             String
+  categoryId        String
+  category          Category        @relation(fields: [categoryId], references: [id])
+  description       String
+  shortDescription  String?
+  price             Int             // En FCFA (XOF)
+  compareAtPrice    Int?            // Prix barré promo
+  stock             Int             @default(0)
+  lowStockThreshold Int             @default(3)
+  images            String[]        // URLs Cloudinary ou externes
+  specs             Json?           // RAM, stockage, processeur, caméra, etc.
+  isFeatured        Boolean         @default(false)
+  isNew             Boolean         @default(false)
+  rating            Float           @default(5.0)
+  reviewCount       Int             @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  orderItems        OrderItem[]
+  stockMovements    StockMovement[]
+
+  @@index([categoryId])
+  @@index([brand])
+  @@map("products")
+}
+
+model Order {
+  id                   String        @id @default(cuid())
+  orderNumber          String        @unique // Ex: FX-202602-1001
+  customerName         String
+  customerPhone        String
+  customerEmail        String?
+  city                 String
+  district             String
+  address              String
+  deliveryInstructions String?
+  deliveryZoneId       String
+  deliveryZoneName     String
+  deliveryFee          Int
+  subtotal             Int
+  total                Int
+  status               OrderStatus   @default(PENDING)
+  paymentMethod        PaymentMethod @default(CASH_ON_DELIVERY)
+  paymentStatus        PaymentStatus @default(PENDING)
+  userId               String?
+  user                 User?         @relation(fields: [userId], references: [id])
+  items                OrderItem[]
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  @@index([orderNumber])
+  @@index([userId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id])
+  productName  String
+  productImage String
+  price        Int
+  quantity     Int
+  subtotal     Int
+
+  @@map("order_items")
+}
+
+model StockMovement {
+  id             String            @id @default(cuid())
+  productId      String
+  product        Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productName    String
+  quantityChange Int               // Positif pour entrée, négatif pour sortie
+  type           StockMovementType
+  reason         String
+  userEmail      String?
+  createdAt      DateTime          @default(now())
+
+  @@index([productId])
+  @@map("stock_movements")
+}
+
+model StoreSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("store_settings")
+}
