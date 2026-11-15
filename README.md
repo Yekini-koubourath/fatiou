@@ -74,7 +74,7 @@
    DIRECT_URL="postgresql://user:password@ep-...neon.tech/fxxtyschop?sslmode=require"
    JWT_SECRET="votre_cle_secrete_aleatoire"
    NEXT_PUBLIC_STORE_NAME="Fxxtyschop Bénin"
-   NEXT_PUBLIC_WHATSAPP_NUMBER="+22997000000"
-   NEXT_PUBLIC_PHONE_NUMBER="+22997000000"
+   NEXT_PUBLIC_WHATSAPP_NUMBER="+22962336142"
+   NEXT_PUBLIC_PHONE_NUMBER="+22962336142"
    ```
 3. **Lancer le déploiement CI/CD** via GitHub.
