@@ -116,7 +116,7 @@ export function ProductDetailView({ product }: { product: Product }) {
         <div className="bg-purple-50/60 rounded-2xl p-5 border border-purple-100 space-y-3 text-xs text-gray-700">
           <div className="flex items-center gap-2.5 font-bold text-[#512264]">
             <Truck className="w-4 h-4 text-[#F37021] shrink-0" />
-            <span>Livraison sous 2h à 4h à Cotonou et Calavi</span>
+            <span>Livraison rapide au Bénin et dans toute la Côte d&apos;Ivoire</span>
           </div>
           <div className="flex items-center gap-2.5 font-bold text-[#512264]">
             <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -261,13 +261,13 @@ export function ProductDetailView({ product }: { product: Product }) {
 
           {/* Bouton WhatsApp */}
           <a
-            href={`https://wa.me/22997000000?text=${whatsappMessage}`}
+            href={`https://wa.me/22962336142?text=${whatsappMessage}`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-xs sm:text-sm text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-colors"
           >
             <MessageCircle className="w-5 h-5" />
-            <span>Commander directement via WhatsApp (+229 97 00 00 00)</span>
+            <span>Commander directement via WhatsApp (+229 62 33 61 42)</span>
           </a>
         </div>
 

@@ -17,15 +17,24 @@ import {
   Check,
 } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
-import { formatPrice, BENIN_DELIVERY_ZONES } from "@/lib/utils";
+import {
+  formatPrice,
+  BENIN_DELIVERY_ZONES,
+  BENIN_CITIES,
+  COTE_IVOIRE_DELIVERY_ZONES,
+  COTE_IVOIRE_CITIES,
+  isValidPhoneForCountry,
+  type DeliveryCountry,
+} from "@/lib/utils";
 
 export default function CommandePage() {
   const router = useRouter();
   const { items, subtotal, clearCart } = useCart();
 
   const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("+229 ");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const [deliveryCountry, setDeliveryCountry] = useState<DeliveryCountry>("BJ");
   const [selectedZoneId, setSelectedZoneId] = useState<string>("cotonou");
   const [city, setCity] = useState("Cotonou");
   const [district, setDistrict] = useState("");
@@ -44,26 +53,41 @@ export default function CommandePage() {
         if (data?.user) {
           if (data.user.name) setCustomerName(data.user.name);
           if (data.user.email) setCustomerEmail(data.user.email);
-          if (data.user.phone) setCustomerPhone(data.user.phone);
+          if (data.user.phone) {
+            const country: DeliveryCountry = data.user.phone.startsWith("+225") ? "CI" : "BJ";
+            setDeliveryCountry(country);
+            setSelectedZoneId(country === "BJ" ? BENIN_DELIVERY_ZONES[0].id : COTE_IVOIRE_DELIVERY_ZONES[0].id);
+            setCity(country === "BJ" ? "Cotonou" : "Abidjan");
+            setCustomerPhone(data.user.phone.replace(/^\s*\+?(?:229|225)\s*/, ""));
+          }
         }
       })
       .catch(() => {});
   }, []);
 
-  const selectedZone = BENIN_DELIVERY_ZONES.find((z) => z.id === selectedZoneId) || BENIN_DELIVERY_ZONES[0];
+  const deliveryZones = deliveryCountry === "BJ" ? BENIN_DELIVERY_ZONES : COTE_IVOIRE_DELIVERY_ZONES;
+  const selectedZone = deliveryZones.find((z) => z.id === selectedZoneId) || deliveryZones[0];
   const deliveryFee = selectedZone.fee;
   const totalAmount = subtotal + deliveryFee;
 
+  const handleCountryChange = (country: DeliveryCountry) => {
+    setDeliveryCountry(country);
+    setSelectedZoneId(country === "BJ" ? BENIN_DELIVERY_ZONES[0].id : COTE_IVOIRE_DELIVERY_ZONES[0].id);
+    setCity(country === "BJ" ? "Cotonou" : "Abidjan");
+    setDistrict("");
+    setAddress("");
+    setDeliveryInstructions("");
+  };
+
   const handleZoneChange = (zoneId: string) => {
     setSelectedZoneId(zoneId);
-    const z = BENIN_DELIVERY_ZONES.find((item) => item.id === zoneId);
-    if (z) {
+    if (deliveryCountry === "BJ") {
       if (zoneId === "cotonou") setCity("Cotonou");
       else if (zoneId === "calavi") setCity("Abomey-Calavi");
       else if (zoneId === "porto-novo") setCity("Porto-Novo");
       else if (zoneId === "ouidah") setCity("Ouidah");
       else if (zoneId === "parakou") setCity("Parakou");
-    }
+    } else setCity("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,9 +104,14 @@ export default function CommandePage() {
       return;
     }
 
-    const cleanPhone = customerPhone.replace(/[\s\-\(\)]/g, "");
-    if (cleanPhone.length < 8) {
-      setErrorMessage("Veuillez renseigner un numéro de téléphone valide au Bénin (+229).");
+    const phonePrefix = deliveryCountry === "CI" ? "+225" : "+229";
+    const formattedPhone = `${phonePrefix} ${customerPhone.trim()}`;
+    if (!isValidPhoneForCountry(formattedPhone, deliveryCountry)) {
+      setErrorMessage(
+        deliveryCountry === "CI"
+          ? "Veuillez renseigner un numéro de téléphone ivoirien valide (+225, 10 chiffres)."
+          : "Veuillez renseigner un numéro de téléphone valide au Bénin (+229)."
+      );
       return;
     }
 
@@ -101,7 +130,7 @@ export default function CommandePage() {
     try {
       const payload = {
         customerName: customerName.trim(),
-        customerPhone: customerPhone.trim(),
+        customerPhone: formattedPhone,
         customerEmail: customerEmail.trim() || undefined,
         city: city.trim(),
         district: district.trim(),
@@ -173,7 +202,7 @@ export default function CommandePage() {
           Finaliser ma Commande
         </h1>
         <p className="text-sm text-gray-500 mt-1">
-          Livraison rapide à domicile ou au bureau partout au Bénin. Aucun paiement immédiat requis.
+          Livraison à domicile ou au bureau au Bénin et en Côte d&apos;Ivoire. Aucun paiement immédiat requis.
         </p>
       </div>
 
@@ -213,18 +242,31 @@ export default function CommandePage() {
 
               <div>
                 <label className="block text-xs font-bold text-gray-700 mb-1">
-                  Numéro de Téléphone (Bénin) <span className="text-red-500">*</span>
+                  Numéro de Téléphone <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
+                <div className="relative flex">
+                  <select
+                    aria-label="Indicatif téléphonique"
+                    value={deliveryCountry}
+                    onChange={(e) => {
+                      if (e.target.value === "BJ" || e.target.value === "CI") {
+                        handleCountryChange(e.target.value);
+                      }
+                    }}
+                    className="w-40 pl-10 pr-2 py-2.5 rounded-l-xl border border-r-0 border-gray-200 bg-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
+                  >
+                    <option value="BJ">+229 Bénin</option>
+                    <option value="CI">+225 Côte d&apos;Ivoire</option>
+                  </select>
+                  <Phone className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
                   <input
                     type="tel"
                     required
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    placeholder="+229 97 00 00 00"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
+                    placeholder={deliveryCountry === "BJ" ? "62 33 61 42" : "01 23 45 67 89"}
+                    className="min-w-0 flex-1 px-3 py-2.5 rounded-r-xl border border-gray-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
                   />
-                  <Phone className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
                 </div>
                 <span className="text-[10px] text-gray-400 mt-1 block">
                   Le livreur vous appellera sur ce numéro avant son départ.
@@ -246,22 +288,33 @@ export default function CommandePage() {
             </div>
           </div>
 
-          {/* 2. Zone & Adresse de Livraison Bénin */}
+          {/* 2. Zone & Adresse de Livraison */}
           <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xs space-y-4">
             <div className="flex items-center gap-2 font-black text-gray-900 text-base pb-3 border-b border-gray-100">
               <span className="w-6 h-6 rounded-full bg-[#512264] text-white flex items-center justify-center text-xs font-bold">
                 2
               </span>
-              <span>Lieu & Zone de Livraison au Bénin</span>
+              <span>
+                {deliveryCountry === "BJ"
+                  ? "Lieu & Zone de Livraison au Bénin"
+                  : "Lieu & Zone de Livraison en Côte d'Ivoire"}
+              </span>
             </div>
 
             {/* Sélecteur de zone avec tarif */}
             <div>
               <label className="block text-xs font-bold text-gray-700 mb-2">
-                Sélectionnez votre zone géographique :
+                {deliveryCountry === "BJ"
+                  ? "Sélectionnez votre zone géographique :"
+                  : "Sélectionnez la tranche de distance routière depuis Abidjan :"}
               </label>
+              {deliveryCountry === "CI" && (
+                <p className="text-[11px] text-gray-500 mb-2">
+                  Choisissez la tranche correspondant à la distance depuis Abidjan, puis saisissez votre ville et votre quartier. Les tarifs sont estimatifs et révisables selon le prix du carburant.
+                </p>
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {BENIN_DELIVERY_ZONES.map((zone) => {
+                {deliveryZones.map((zone) => {
                   const isSelected = selectedZoneId === zone.id;
                   return (
                     <button
@@ -300,9 +353,25 @@ export default function CommandePage() {
                   required
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  placeholder="Cotonou, Calavi..."
+                  list={deliveryCountry === "BJ" ? "benin-cities" : "cote-ivoire-cities"}
+                  placeholder="Choisir ou saisir une ville..."
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
                 />
+                <datalist id="benin-cities">
+                  {BENIN_CITIES.map((cityOption) => (
+                    <option key={cityOption} value={cityOption} />
+                  ))}
+                </datalist>
+                <datalist id="cote-ivoire-cities">
+                  {COTE_IVOIRE_CITIES.map((cityOption) => (
+                    <option key={cityOption} value={cityOption} />
+                  ))}
+                </datalist>
+                {deliveryCountry === "CI" && (
+                  <span className="text-[10px] text-gray-400 mt-1 block">
+                    Les autres villes sont acceptées : saisissez simplement leur nom.
+                  </span>
+                )}
               </div>
 
               <div>
@@ -314,7 +383,11 @@ export default function CommandePage() {
                   required
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
-                  placeholder="Ex : Haie Vive, Agla, Fidjrossè, Tankpè..."
+                  placeholder={
+                    deliveryCountry === "BJ"
+                      ? "Ex : Haie Vive, Agla, Fidjrossè, Tankpè..."
+                      : "Ex : Cocody, Yopougon, Treichville..."
+                  }
                   className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
                 />
               </div>

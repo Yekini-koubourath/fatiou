@@ -115,7 +115,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               Portail Administrateur
             </h1>
             <p className="text-xs text-gray-500">
-              Accès réservé à la gestion de la boutique Fxxtyschop Bénin
+              Accès réservé à la gestion de Fxxtyschop au Bénin et en Côte d&apos;Ivoire
             </p>
           </div>
 
@@ -176,20 +176,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}
             </button>
           </form>
-
-          {/* Raccourci Démo pré-rempli */}
-          <div className="pt-4 border-t border-gray-100 text-center">
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("admin@fxxtyschop.bj");
-                setPassword("Admin@2026Fxxty");
-              }}
-              className="text-[11px] font-bold text-[#512264] hover:text-[#F37021] underline"
-            >
-              Utiliser les identifiants Admin pré-configurés
-            </button>
-          </div>
         </div>
       </div>
     );
@@ -217,15 +203,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="p-2 text-white"
-          aria-label="Ouvrir le menu"
+          aria-label={sidebarOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={sidebarOpen}
         >
           {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
+      {sidebarOpen && (
+        <button
+          type="button"
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-30 bg-black/50 md:hidden"
+          aria-label="Fermer le menu"
+        />
+      )}
+
       {/* Sidebar Latérale de l'Admin */}
       <aside
-        className={`fixed md:sticky top-0 inset-y-0 left-0 z-40 w-64 bg-[#1E1B26] text-gray-300 flex flex-col justify-between p-6 transform transition-transform duration-200 ease-in-out md:translate-x-0 ${
+        className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen max-h-screen shrink-0 overflow-y-auto bg-[#1E1B26] text-gray-300 flex flex-col justify-between p-6 transform transition-transform duration-200 ease-in-out md:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -274,6 +270,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/"
             target="_blank"
+            onClick={() => setSidebarOpen(false)}
             className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium text-purple-300 hover:bg-white/5 transition-colors"
           >
             <Store className="w-4 h-4 text-[#F37021]" />

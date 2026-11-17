@@ -22,7 +22,7 @@ export function HeroBanner() {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
               La haute technologie certifiée au{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F37021] to-amber-300">
-                meilleur prix au Bénin
+                meilleur prix au Bénin et en Côte d&apos;Ivoire
               </span>
             </h1>
 
@@ -40,7 +40,7 @@ export function HeroBanner() {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
-                href="https://wa.me/22997000000?text=Bonjour%20Fxxtyschop%2C%20je%20souhaite%20des%20informations%20sur%20vos%20produits"
+                href="https://wa.me/22962336142?text=Bonjour%20Fxxtyschop%2C%20je%20souhaite%20des%20informations%20sur%20vos%20produits"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/20 backdrop-blur-xs transition-colors text-sm"
@@ -54,7 +54,7 @@ export function HeroBanner() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/15 text-xs text-purple-200">
               <div className="flex items-center gap-2">
                 <Truck className="w-4 h-4 text-[#F37021] shrink-0" />
-                <span>Livraison 4h (Cotonou & Calavi)</span>
+                <span>Livraison au Bénin et en Côte d&apos;Ivoire</span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-[#F37021] shrink-0" />

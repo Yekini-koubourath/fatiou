@@ -127,7 +127,7 @@ export default async function HomePage() {
           {/* Témoignages Clients */}
           <div className="border-t border-gray-100 pt-12">
             <h3 className="text-xl font-bold text-center text-gray-900 mb-8">
-              Ce que disent nos clients au Bénin
+              Ce que disent nos clients
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-xl bg-purple-50/50 border border-purple-100">

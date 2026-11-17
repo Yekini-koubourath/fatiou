@@ -76,7 +76,7 @@ export default function AdminDashboardPage() {
           Tableau de Bord Commercial Fxxtyschop
         </h1>
         <p className="text-sm text-gray-500 mt-1">
-          Suivi des ventes, des livraisons et des stocks au Bénin en temps réel.
+          Suivi des ventes, des livraisons au Bénin et en Côte d&apos;Ivoire, et des stocks en temps réel.
         </p>
       </div>
 
@@ -169,7 +169,7 @@ export default function AdminDashboardPage() {
               <tr>
                 <th className="p-4">N° Commande</th>
                 <th className="p-4">Client & Contact</th>
-                <th className="p-4">Destination Bénin</th>
+                <th className="p-4">Destination de livraison</th>
                 <th className="p-4">Montant Total</th>
                 <th className="p-4">Statut Actuel</th>
                 <th className="p-4">Action Statut</th>

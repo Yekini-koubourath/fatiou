@@ -6,14 +6,14 @@ import { StoreSettings } from "@/lib/types";
 
 export default function AdminParametresPage() {
   const [settings, setSettings] = useState<StoreSettings>({
-    storeName: "Fxxtyschop Bénin",
-    tagline: "Votre référence high-tech au Bénin",
-    phone: "+229 97 00 00 00",
-    whatsapp: "+229 97 00 00 00",
+    storeName: "Fxxtyschop Bénin & Côte d'Ivoire",
+    tagline: "Votre référence high-tech au Bénin et en Côte d'Ivoire",
+    phone: "+229 62 33 61 42",
+    whatsapp: "+229 62 33 61 42",
     email: "contact@fxxtyschop.bj",
     address: "Boulevard de la Marina, Cotonou, Bénin",
     city: "Cotonou",
-    announcementText: "🚚 Livraison express sous 4h à Cotonou & Calavi • Paiement à la réception !",
+    announcementText: "🚚 Livraison au Bénin et dans toutes les villes de Côte d'Ivoire • Paiement à la réception !",
     isAnnouncementActive: true,
   });
 
@@ -106,23 +106,23 @@ export default function AdminParametresPage() {
           </div>
         </div>
 
-        {/* Contacts Bénin */}
+        {/* Contacts de la boutique */}
         <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xs space-y-4">
           <h2 className="text-sm font-black text-[#512264] pb-2 border-b border-gray-100">
-            Contacts Téléphoniques & WhatsApp Bénin
+            Contacts Téléphoniques & WhatsApp
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block font-bold text-gray-700 mb-1">
-                Numéro WhatsApp Commandes (+229)
+                Numéro WhatsApp Commandes
               </label>
               <input
                 type="text"
                 required
                 value={settings.whatsapp}
                 onChange={(e) => setSettings({ ...settings, whatsapp: e.target.value })}
-                placeholder="+229 97 00 00 00"
+                placeholder="+229 62 33 61 42"
                 className="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold text-[#F37021]"
               />
               <span className="text-[10px] text-gray-400 mt-1 block">
@@ -139,7 +139,7 @@ export default function AdminParametresPage() {
                 required
                 value={settings.phone}
                 onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
-                placeholder="+229 97 00 00 00"
+                placeholder="+229 62 33 61 42"
                 className="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs"
               />
             </div>

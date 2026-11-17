@@ -39,18 +39,18 @@ export function Header() {
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-[#F37021] animate-pulse"></span>
             <span>
-              🚚 <strong>Livraison express sous 4h</strong> à Cotonou & Calavi • Paiement à la réception !
+              🚚 <strong>Express sous 4h à Cotonou & Calavi</strong> • Bénin et toutes les villes de Côte d&apos;Ivoire • Paiement à réception
             </span>
           </div>
           <div className="flex items-center gap-4 text-purple-200">
             <a
-              href="https://wa.me/22997000000"
+              href="https://wa.me/22962336142"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:text-white transition-colors"
             >
               <Phone className="w-3 h-3 text-[#F37021]" />
-              <span>WhatsApp : +229 97 00 00 00</span>
+              <span>WhatsApp : +229 62 33 61 42</span>
             </a>
             <span className="hidden md:inline">•</span>
             <div className="hidden md:flex items-center gap-1">
@@ -75,7 +75,7 @@ export function Header() {
                 <span className="text-[#F37021]">SCHOP</span>
               </span>
               <span className="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">
-                Bénin • High-Tech
+                Bénin & Côte d&apos;Ivoire • High-Tech
               </span>
             </div>
           </Link>

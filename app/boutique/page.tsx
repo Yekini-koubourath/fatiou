@@ -76,7 +76,7 @@ export default async function BoutiquePage({ searchParams }: BoutiquePageProps) 
             </h1>
             <p className="text-sm text-gray-500 mt-1">
               {products.length} appareil{products.length > 1 ? "s" : ""} disponible
-              {products.length > 1 ? "s" : ""} avec livraison et garantie au Bénin
+              {products.length > 1 ? "s" : ""} avec livraison au Bénin et en Côte d&apos;Ivoire
             </p>
           </div>
 

@@ -32,22 +32,79 @@ export function formatDate(date: string | Date): string {
 }
 
 /**
- * Zones de livraison au Bénin avec frais standards
+ * Zones de livraison avec frais standards
  */
 export const BENIN_DELIVERY_ZONES = [
-  { id: "cotonou", name: "Cotonou (Intra-muros)", fee: 1500, delay: "2h à 6h (Même jour)" },
-  { id: "calavi", name: "Abomey-Calavi / Akpakpa", fee: 2000, delay: "4h à 8h (Même jour)" },
-  { id: "porto-novo", name: "Porto-Novo & Environs", fee: 3000, delay: "24h ouvrées" },
-  { id: "ouidah", name: "Ouidah & Environs", fee: 3500, delay: "24h ouvrées" },
-  { id: "parakou", name: "Parakou (Expédition gare/agence)", fee: 5000, delay: "24h à 48h" },
-  { id: "autre-benin", name: "Autre ville du Bénin", fee: 5000, delay: "48h à 72h" },
+  { id: "cotonou", country: "BJ", name: "Cotonou (Intra-muros)", fee: 1500, delay: "2h à 6h (Même jour)" },
+  { id: "calavi", country: "BJ", name: "Abomey-Calavi / Akpakpa", fee: 2000, delay: "4h à 8h (Même jour)" },
+  { id: "porto-novo", country: "BJ", name: "Porto-Novo & Environs", fee: 3000, delay: "24h ouvrées" },
+  { id: "ouidah", country: "BJ", name: "Ouidah & Environs", fee: 3500, delay: "24h ouvrées" },
+  { id: "parakou", country: "BJ", name: "Parakou (Expédition gare/agence)", fee: 5000, delay: "24h à 48h" },
+  { id: "autre-benin", country: "BJ", name: "Autre ville du Bénin", fee: 5000, delay: "48h à 72h" },
 ] as const;
 
+export const COTE_IVOIRE_DELIVERY_ZONES = [
+  { id: "ci-abidjan-proche", country: "CI", name: "Abidjan (Cocody, Plateau, Yopougon...) — jusqu'à 20 km", fee: 1500, delay: "2h à 6h (Même jour)" },
+  { id: "ci-abidjan-peripherie", country: "CI", name: "Bingerville, Anyama, Grand-Bassam — 20 à 50 km", fee: 2500, delay: "Même jour à 24h" },
+  { id: "ci-proche", country: "CI", name: "Dabou, Agboville, Adzopé — 50 à 150 km", fee: 5000, delay: "24h à 48h" },
+  { id: "ci-intermediaire", country: "CI", name: "Yamoussoukro, Bouaké, Gagnoa, Daloa — 150 à 350 km", fee: 8000, delay: "24h à 72h" },
+  { id: "ci-eloignee", country: "CI", name: "Man, Korhogo, San-Pédro et autres villes éloignées — plus de 350 km", fee: 12000, delay: "48h à 72h (Agence)" },
+] as const;
+
+export const BENIN_CITIES = [
+  "Cotonou",
+  "Abomey-Calavi",
+  "Porto-Novo",
+  "Ouidah",
+  "Parakou",
+  "Bohicon",
+  "Natitingou",
+  "Lokossa",
+  "Djougou",
+  "Kandi",
+] as const;
+
+export const COTE_IVOIRE_CITIES = [
+  "Abidjan",
+  "Abengourou",
+  "Aboisso",
+  "Adzopé",
+  "Agboville",
+  "Anyama",
+  "Bondoukou",
+  "Bouaflé",
+  "Bouaké",
+  "Dabou",
+  "Daloa",
+  "Divo",
+  "Ferkessédougou",
+  "Gagnoa",
+  "Grand-Bassam",
+  "Guiglo",
+  "Korhogo",
+  "Man",
+  "Odienné",
+  "San-Pédro",
+  "Sassandra",
+  "Soubré",
+  "Yamoussoukro",
+] as const;
+
+export type DeliveryCountry = "BJ" | "CI";
+
+export const DELIVERY_ZONES = [...BENIN_DELIVERY_ZONES, ...COTE_IVOIRE_DELIVERY_ZONES];
+
 /**
- * Validation basique numéro de téléphone Bénin
+ * Validation basique du numéro de téléphone selon le pays de livraison
  */
 export function isValidBeninPhone(phone: string): boolean {
-  // Format attendu : +229 suivi de 8 à 10 chiffres, ou simplement 8 à 10 chiffres (nouveau plan de numérotation)
   const cleaned = phone.replace(/[\s\-\(\)]/g, "");
   return /^(\+229)?[0-9]{8,10}$/.test(cleaned);
+}
+
+export function isValidPhoneForCountry(phone: string, country: DeliveryCountry): boolean {
+  const cleaned = phone.replace(/[\s\-\(\)]/g, "");
+  return country === "CI"
+    ? /^(\+225)?[0-9]{10}$/.test(cleaned)
+    : isValidBeninPhone(cleaned);
 }

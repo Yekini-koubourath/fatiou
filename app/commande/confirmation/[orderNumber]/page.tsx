@@ -81,7 +81,7 @@ export default async function OrderConfirmationPage({ params }: ConfirmationPage
               Cliquez ci-dessous pour ouvrir directement la conversation WhatsApp avec notre équipe :
             </p>
             <a
-              href={`https://wa.me/22997000000?text=${whatsappMessage}`}
+              href={`https://wa.me/22962336142?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md transition-colors"

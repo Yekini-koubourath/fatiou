@@ -163,7 +163,7 @@ export default function PanierPage() {
                 <span className="font-bold text-gray-900">{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
-                <span>Livraison Bénin :</span>
+                <span>Livraison :</span>
                 <span className="text-xs text-emerald-600 font-bold">
                   Calculé à l&apos;étape suivante (Dès 1 500 F)
                 </span>
@@ -177,7 +177,7 @@ export default function PanierPage() {
             <div className="p-3 bg-purple-50 rounded-xl border border-purple-100 space-y-2 text-xs text-purple-900">
               <div className="flex items-center gap-2 font-bold">
                 <Truck className="w-4 h-4 text-[#F37021] shrink-0" />
-                <span>Livraison express partout au Bénin</span>
+                <span>Livraison au Bénin et en Côte d&apos;Ivoire</span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />

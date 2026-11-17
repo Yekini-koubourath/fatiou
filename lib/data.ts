@@ -576,13 +576,13 @@ export const INITIAL_STOCK_MOVEMENTS = [
 ];
 
 export const STORE_SETTINGS = {
-  storeName: "Fxxtyschop Bénin",
-  tagline: "Votre référence high-tech au Bénin",
-  phone: "+229 97 00 00 00",
-  whatsapp: "+229 97 00 00 00",
+  storeName: "Fxxtyschop Bénin & Côte d'Ivoire",
+  tagline: "Votre référence high-tech au Bénin et en Côte d'Ivoire",
+  phone: "+229 62 33 61 42",
+  whatsapp: "+229 62 33 61 42",
   email: "contact@fxxtyschop.bj",
   address: "Boulevard de la Marina, Cotonou, Bénin",
   city: "Cotonou",
-  announcementText: "🔥 Offres Spéciales Fxxtyschop : Livraison express sous 4h à Cotonou & Calavi ! Paiement à la livraison 🚚",
+  announcementText: "🔥 Offres Fxxtyschop : Livraison au Bénin et dans toutes les villes de Côte d'Ivoire ! Paiement à la livraison 🚚",
   isAnnouncementActive: true,
 };

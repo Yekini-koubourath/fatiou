@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { User, Mail, Phone, Lock, ArrowRight, AlertCircle, ShieldCheck } from "lucide-react";
+import type { DeliveryCountry } from "@/lib/utils";
 
 export default function InscriptionPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("+229 ");
+  const [phone, setPhone] = useState("");
+  const [phoneCountry, setPhoneCountry] = useState<DeliveryCountry>("BJ");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,6 +20,7 @@ export default function InscriptionPage() {
     e.preventDefault();
     setErrorMessage("");
     setLoading(true);
+    const phonePrefix = phoneCountry === "CI" ? "+225" : "+229";
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -26,7 +29,7 @@ export default function InscriptionPage() {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          phone: phone.trim(),
+          phone: `${phonePrefix} ${phone.trim()}`,
           password,
         }),
       });
@@ -88,18 +91,31 @@ export default function InscriptionPage() {
 
           <div>
             <label className="block text-xs font-bold text-gray-700 mb-1">
-              Numéro de téléphone (Bénin) <span className="text-red-500">*</span>
+              Numéro de téléphone <span className="text-red-500">*</span>
             </label>
-            <div className="relative">
+            <div className="relative flex">
+              <select
+                aria-label="Indicatif téléphonique"
+                value={phoneCountry}
+                onChange={(e) => {
+                  if (e.target.value === "BJ" || e.target.value === "CI") {
+                    setPhoneCountry(e.target.value);
+                  }
+                }}
+                className="w-40 pl-10 pr-2 py-2.5 rounded-l-xl border border-r-0 border-gray-200 bg-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
+              >
+                <option value="BJ">+229 Bénin</option>
+                <option value="CI">+225 Côte d&apos;Ivoire</option>
+              </select>
+              <Phone className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
               <input
                 type="tel"
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+229 97 00 00 00"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
+                placeholder={phoneCountry === "BJ" ? "62 33 61 42" : "01 23 45 67 89"}
+                className="min-w-0 flex-1 px-3 py-2.5 rounded-r-xl border border-gray-200 text-sm focus:outline-hidden focus:ring-2 focus:ring-[#512264]"
               />
-              <Phone className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
             </div>
           </div>
 

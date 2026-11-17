@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { BENIN_DELIVERY_ZONES } from "@/lib/utils";
+import { DELIVERY_ZONES, isValidPhoneForCountry } from "@/lib/utils";
 import { getCurrentUser } from "@/lib/auth";
 
 const orderSchema = z.object({
   customerName: z.string().min(2, "Veuillez entrer votre nom complet"),
-  customerPhone: z.string().min(8, "Veuillez entrer un numéro de téléphone valide au Bénin"),
+  customerPhone: z.string().min(8, "Veuillez entrer un numéro de téléphone valide"),
   customerEmail: z.string().email("E-mail invalide").optional().or(z.literal("")),
   city: z.string().min(2, "Veuillez sélectionner ou préciser la ville"),
   district: z.string().min(2, "Veuillez indiquer votre quartier"),
@@ -59,11 +59,24 @@ export async function POST(request: Request) {
     const data = parsed.data;
 
     // Déterminer les frais de zone officiels
-    const zone = BENIN_DELIVERY_ZONES.find((z) => z.id === data.deliveryZoneId) || {
+    const zone = DELIVERY_ZONES.find((z) => z.id === data.deliveryZoneId) || {
       id: "autre-benin",
+      country: "BJ" as const,
       name: "Autre ville du Bénin",
       fee: 5000,
     };
+
+    if (!isValidPhoneForCountry(data.customerPhone, zone.country)) {
+      return NextResponse.json(
+        {
+          error:
+            zone.country === "CI"
+              ? "Veuillez entrer un numéro de téléphone ivoirien valide (+225, 10 chiffres)."
+              : "Veuillez entrer un numéro de téléphone valide au Bénin (+229).",
+        },
+        { status: 400 }
+      );
+    }
 
     // Vérifier les stocks en temps réel
     for (const item of data.items) {

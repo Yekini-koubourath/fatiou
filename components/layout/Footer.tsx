@@ -23,8 +23,8 @@ export function Footer() {
               <Truck className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-white font-bold text-sm">Livraison Rapide Bénin</h4>
-              <p className="text-xs text-gray-400">Sous 4h à Cotonou et Calavi</p>
+              <h4 className="text-white font-bold text-sm">Livraison Bénin & Côte d&apos;Ivoire</h4>
+              <p className="text-xs text-gray-400">Bénin et toutes les villes de Côte d&apos;Ivoire</p>
             </div>
           </div>
 
@@ -74,11 +74,11 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
-              Votre destination privilégiée au Bénin pour l&apos;achat d&apos;iPhones, smartphones Samsung, MacBook et ordinateurs portables professionnels de haute qualité avec garantie et support dédié.
+              Votre destination privilégiée au Bénin et en Côte d&apos;Ivoire pour l&apos;achat d&apos;iPhones, smartphones Samsung, MacBook et ordinateurs portables professionnels de haute qualité avec garantie et support dédié.
             </p>
             <div className="pt-2">
               <a
-                href="https://wa.me/22997000000"
+                href="https://wa.me/22962336142"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-colors shadow-sm"
@@ -158,6 +158,26 @@ export function Footer() {
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
                 <span>Bohicon & Natitingou</span>
               </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Abidjan : Cocody, Plateau, Yopougon, Abobo...</span>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Bingerville, Anyama & Grand-Bassam</span>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Dabou, Agboville & Adzopé</span>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Yamoussoukro, Bouaké, Gagnoa & Daloa</span>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Man, Korhogo, San-Pédro et autres villes</span>
+              </li>
             </ul>
           </div>
 
@@ -169,7 +189,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#F37021] shrink-0 mt-0.5" />
-                <span>Boulevard de la Marina, Cotonou, Bénin</span>
+                <span>pk10, Cotonou, Bénin</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#F37021] shrink-0" />
@@ -179,8 +199,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#F37021] shrink-0" />
-                <a href="mailto:contact@fxxtyschop.bj" className="hover:text-white transition-colors">
-                  contact@fxxtyschop.bj
+                <a href="mailto:fatiouadjiboye43@gmail.com" className="hover:text-white transition-colors">
+                  fatiouadjiboye43@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
@@ -193,7 +213,7 @@ export function Footer() {
 
         {/* 3. Bas de page & Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} Fxxtyschop Bénin. Tous droits réservés.</p>
+          <p>© {new Date().getFullYear()} Fxxtyschop Bénin & Côte d&apos;Ivoire. Tous droits réservés.</p>
           <div className="flex items-center gap-6">
             <Link href="/boutique" className="hover:text-white transition-colors">
               Catalogue

@@ -127,7 +127,7 @@ export function CartDrawer() {
             <div className="p-6 border-t border-gray-100 bg-gray-50/80 space-y-4">
               <div className="flex items-center gap-2 text-xs text-gray-600 bg-white p-2.5 rounded-lg border border-gray-200">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Paiement à la livraison au Bénin • Contrôle du colis avant paiement</span>
+                <span>Paiement à la livraison au Bénin et en Côte d&apos;Ivoire • Contrôle du colis avant paiement</span>
               </div>
 
               <div className="flex justify-between items-baseline">
